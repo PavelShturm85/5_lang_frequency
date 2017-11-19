@@ -26,8 +26,9 @@ def print_top_words(word_dict):
     print('Самые встречающиеся слова:')
     print('---------------------------')
     place_counter = 1
-    for i in word_dict.most_common(10):
-        print(str(place_counter) + '.' + '\t', i[0], '\t x', i[1])
+    top_ten_worlds = 10
+    for place in word_dict.most_common(top_ten_worlds):
+        print(str(place_counter) + '.' + '\t', place[0], '\t x', place[1])
         place_counter += 1
 
 
