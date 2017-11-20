@@ -1,42 +1,42 @@
 import sys
 import re
-import string
 import collections
 
 
 def load_data(enter_file):
-    with open(enter_file, 'r') as text:
-        content = text.read()
-    return content
+    with open(enter_file, 'r') as text_file:
+        return text_file.read()
 
 
-def special_characters(input_text):
-    regexp = ''.format(string.printable)
-    return re.sub(regexp, '', input_text)
+def del_symbols(input_text):
+    return re.sub(u'[^А-Яа-яA-Za-z\s]*', u'', input_text.lower()).split()
 
 
-def get_most_frequent_words(without_special_symbol):
+def counter_words(word_list):
     counter = collections.Counter()
-    for word in without_special_symbol.split():
+    for word in word_list:
         counter[word] += 1
     return counter
 
 
 def print_top_words(word_dict):
+
     print('Самые встречающиеся слова:')
     print('---------------------------')
-    place_counter = 1
-    top_ten_worlds = 10
-    for place in word_dict.most_common(top_ten_worlds):
-        print(str(place_counter) + '.' + '\t', place[0], '\t x', place[1])
-        place_counter += 1
+    top_ten = 10
+    for number, counted_words in enumerate(word_dict.most_common(top_ten), 1):
+        word = counted_words[0]
+        quantity = counted_words[1]
+        print("{} \t {} \t x {} ".format(number, word, quantity))
 
 
 if __name__ == '__main__':
+
     if len(sys.argv) > 1:
         input_file_name = sys.argv[1]
     else:
         input_file_name = input('Введите путь к файлу: ')
+
     enter_text = load_data(input_file_name)
-    most_often_words = get_most_frequent_words(special_characters(enter_text))
+    most_often_words = counter_words(del_symbols(enter_text))
     print_top_words(most_often_words)
