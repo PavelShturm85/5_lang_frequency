@@ -9,25 +9,17 @@ def load_data(enter_file):
 
 
 def del_symbols(input_text):
-    return re.sub(u'[^А-Яа-яA-Za-z\s]*', u'', input_text.lower()).split()
+    return re.sub('[^А-Яа-яA-Za-z\s]*', '', input_text.lower()).split()
 
 
-def counter_words(word_list):
-    counter = collections.Counter()
-    for word in word_list:
-        counter[word] += 1
-    return counter
-
-
-def print_top_words(word_dict):
+def print_top_words(words_dict):
 
     print('Самые встречающиеся слова:')
     print('---------------------------')
     top_ten = 10
-    for number, counted_words in enumerate(word_dict.most_common(top_ten), 1):
-        word = counted_words[0]
-        quantity = counted_words[1]
-        print("{} \t {} \t x {} ".format(number, word, quantity))
+    for number, words_and_amount in enumerate(
+            collections.Counter(words_dict).most_common(top_ten), 1):
+        print("{} \t {} \t x {} ".format(number, *words_and_amount))
 
 
 if __name__ == '__main__':
@@ -38,5 +30,4 @@ if __name__ == '__main__':
         input_file_name = input('Введите путь к файлу: ')
 
     enter_text = load_data(input_file_name)
-    most_often_words = counter_words(del_symbols(enter_text))
-    print_top_words(most_often_words)
+    print_top_words(del_symbols(enter_text))
